@@ -1,0 +1,872 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap');
+
+:root{
+  --black:#050705;
+  --black2:#080b07;
+  --panel:#0d120d;
+  --panel2:#121812;
+  --panel3:#171e16;
+  --green:#aebd43;
+  --green-bright:#d7e35c;
+  --green-soft:#84912f;
+  --green-dark:#3e4721;
+  --paper:#d3d3bc;
+  --muted:#929581;
+  --dim:#5f6558;
+  --line:rgba(174,189,67,.24);
+  --line-strong:rgba(215,227,92,.48);
+  --blood:#6d1718;
+  --blood-bright:#a42624;
+  --warning:#c9b83f;
+  --shadow:0 18px 50px rgba(0,0,0,.55);
+  --radius:2px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--paper);
+  background:
+    radial-gradient(circle at 50% -10%,rgba(126,145,47,.10),transparent 34rem),
+    linear-gradient(180deg,#080a07 0%,#050605 55%,#030403 100%);
+  font-family:"IBM Plex Sans",sans-serif;
+  line-height:1.65;
+  overflow-x:hidden;
+  position:relative;
+  isolation:isolate;
+}
+
+/* Very light CRT atmosphere — deliberately much lighter than the old grain. */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:999;
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(215,227,92,.035) 0,
+      rgba(215,227,92,.035) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  opacity:.34;
+  mix-blend-mode:screen;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:998;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.58) 100%),
+    linear-gradient(90deg,rgba(0,0,0,.18),transparent 18%,transparent 82%,rgba(0,0,0,.18));
+  animation:vignetteBreath 7s ease-in-out infinite;
+}
+
+::selection{
+  color:#10130b;
+  background:var(--green-bright);
+}
+
+a{color:var(--green-bright);text-decoration:none}
+a:hover{color:#f0f3ae}
+
+header{
+  position:relative;
+  padding:4.7rem 1.5rem 3.2rem;
+  text-align:center;
+  border-bottom:1px solid var(--line);
+  background:
+    linear-gradient(180deg,rgba(28,36,22,.42),rgba(5,7,5,.95)),
+    repeating-linear-gradient(90deg,transparent 0 90px,rgba(174,189,67,.025) 90px 91px);
+  box-shadow:0 12px 35px rgba(0,0,0,.45);
+  overflow:hidden;
+}
+
+header::before{
+  content:"";
+  position:absolute;
+  left:-20%;
+  top:0;
+  width:35%;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--green-bright),transparent);
+  box-shadow:0 0 18px rgba(215,227,92,.7);
+  animation:terminalSweep 6s linear infinite;
+}
+
+header::after{
+  content:"MURKOFF  //  SINYALA FACILITY  //  INTERNAL USE ONLY";
+  position:absolute;
+  left:1.5rem;
+  bottom:.75rem;
+  color:rgba(174,189,67,.42);
+  font:500 .62rem/1 "IBM Plex Mono",monospace;
+  letter-spacing:.18em;
+}
+
+header h1{
+  margin:0;
+  color:var(--green-bright);
+  font:600 clamp(2.5rem,7vw,5.5rem)/.95 "Oswald",sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  text-shadow:0 0 7px rgba(215,227,92,.35),3px 0 rgba(109,23,24,.34);
+  animation:titleFlicker 8s steps(1,end) infinite;
+}
+
+header p{
+  margin:.85rem 0 0;
+  color:var(--muted);
+  font:500 .78rem/1.3 "IBM Plex Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.24em;
+}
+
+nav{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:.35rem;
+  padding:.65rem .75rem;
+  border-bottom:1px solid var(--line);
+  background:rgba(5,7,5,.94);
+  backdrop-filter:blur(9px);
+  box-shadow:0 8px 24px rgba(0,0,0,.42);
+}
+
+nav::before{
+  content:"● REC";
+  margin-right:.35rem;
+  padding:.45rem .7rem;
+  color:var(--blood-bright);
+  font:600 .68rem/1 "IBM Plex Mono",monospace;
+  letter-spacing:.12em;
+  animation:recordBlink 2.3s ease-in-out infinite;
+}
+
+nav a{
+  position:relative;
+  z-index:1001;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:36px;
+  padding:.45rem .82rem;
+  color:var(--muted);
+  border:1px solid transparent;
+  font:600 .72rem/1 "IBM Plex Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  pointer-events:auto;
+  transition:color .2s,border-color .2s,background .2s,transform .2s,box-shadow .2s;
+}
+
+nav a::before{
+  content:"";
+  position:absolute;
+  left:.45rem;
+  right:.45rem;
+  bottom:3px;
+  height:1px;
+  background:var(--green-bright);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .2s ease;
+}
+
+nav a:hover{
+  color:var(--green-bright);
+  border-color:var(--line);
+  background:rgba(174,189,67,.07);
+  transform:translateY(-1px);
+  box-shadow:inset 0 0 14px rgba(174,189,67,.05),0 0 12px rgba(174,189,67,.08);
+}
+nav a:hover::before{transform:scaleX(1)}
+
+main{
+  width:min(1180px,calc(100% - 2rem));
+  margin:0 auto;
+  padding:2rem 0 5rem;
+}
+
+section{
+  position:relative;
+  margin:0 0 2rem;
+  padding:1.55rem;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(135deg,rgba(20,28,18,.88),rgba(7,10,7,.96)),
+    repeating-linear-gradient(0deg,transparent 0 37px,rgba(174,189,67,.018) 37px 38px);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  animation:contentIn .7s cubic-bezier(.2,.75,.2,1) both;
+}
+
+section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-top:1px solid rgba(215,227,92,.10);
+  background:linear-gradient(105deg,transparent 35%,rgba(215,227,92,.035) 50%,transparent 65%);
+  transform:translateX(-100%);
+  animation:panelScan 9s linear infinite;
+}
+
+section::after{
+  content:"SECURE // FILE";
+  position:absolute;
+  right:.8rem;
+  top:.7rem;
+  color:rgba(174,189,67,.28);
+  font:500 .55rem/1 "IBM Plex Mono",monospace;
+  letter-spacing:.15em;
+}
+
+h2,h3{
+  font-family:"Oswald",sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.055em;
+}
+
+h2{
+  margin:0 0 .8rem;
+  color:var(--green-bright);
+  font-size:2rem;
+  text-shadow:0 0 12px rgba(174,189,67,.13);
+}
+
+h3{
+  color:var(--paper);
+  font-size:1.45rem;
+  line-height:1.15;
+}
+
+.section-intro{
+  max-width:850px;
+  color:var(--muted);
+  font-size:.96rem;
+}
+
+.asset-heading{
+  display:flex;
+  align-items:center;
+  gap:.65rem;
+  margin:0 0 1.25rem;
+  color:var(--green);
+  font-size:1.9rem;
+}
+
+.asset-heading::before{
+  content:"//";
+  color:var(--blood-bright);
+  font-family:"IBM Plex Mono",monospace;
+  animation:cursorBlink 1.2s steps(1,end) infinite;
+}
+
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1rem;
+}
+
+.card{
+  position:relative;
+  min-width:0;
+  padding:1.25rem;
+  border:1px solid rgba(174,189,67,.18);
+  background:
+    linear-gradient(150deg,rgba(22,29,20,.92),rgba(9,12,9,.97));
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  overflow:hidden;
+  animation:cardReveal .65s cubic-bezier(.2,.7,.2,1) both;
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease;
+}
+
+.card:nth-child(2){animation-delay:.06s}
+.card:nth-child(3){animation-delay:.12s}
+.card:nth-child(4){animation-delay:.18s}
+.card:nth-child(5){animation-delay:.24s}
+.card:nth-child(6){animation-delay:.30s}
+.card:nth-child(7){animation-delay:.36s}
+.card:nth-child(8){animation-delay:.42s}
+.card:nth-child(9){animation-delay:.48s}
+.card:nth-child(10){animation-delay:.54s}
+
+.card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:3px;
+  height:100%;
+  background:linear-gradient(var(--green-bright),transparent 70%);
+  opacity:.65;
+}
+
+.card::after{
+  content:"";
+  position:absolute;
+  left:-120%;
+  top:0;
+  width:65%;
+  height:100%;
+  background:linear-gradient(90deg,transparent,rgba(215,227,92,.08),transparent);
+  transform:skewX(-15deg);
+  transition:left .55s ease;
+  pointer-events:none;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--line-strong);
+  background:linear-gradient(150deg,rgba(27,36,22,.98),rgba(10,14,10,.98));
+  box-shadow:0 16px 38px rgba(0,0,0,.55),0 0 18px rgba(174,189,67,.08);
+}
+.card:hover::after{left:140%}
+
+.card h3{margin:.1rem 0 .55rem}
+.card p{color:var(--muted);margin:.55rem 0}
+.card strong{color:var(--paper)}
+
+.tag{
+  display:inline-block;
+  padding:.24rem .48rem;
+  border:1px solid rgba(174,189,67,.25);
+  color:var(--green-bright)!important;
+  background:rgba(174,189,67,.05);
+  font:600 .66rem/1.25 "IBM Plex Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.steps{
+  margin:1rem 0 0;
+  padding-left:1.5rem;
+  color:var(--paper);
+}
+
+.steps li{
+  margin:.7rem 0;
+  padding-left:.25rem;
+}
+
+.steps li::marker{
+  color:var(--green);
+  font-family:"IBM Plex Mono",monospace;
+}
+
+.map-nav{
+  position:relative;
+  z-index:100;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.45rem;
+  margin:1.35rem 0 .5rem;
+  padding:0;
+  list-style:none;
+}
+
+.map-nav button{
+  position:relative;
+  min-height:38px;
+  padding:.5rem .75rem;
+  border:1px solid rgba(174,189,67,.22);
+  border-radius:0;
+  background:rgba(5,8,5,.7);
+  color:var(--muted);
+  cursor:pointer;
+  font:600 .68rem/1 "IBM Plex Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  transition:all .2s ease;
+  pointer-events:auto;
+}
+
+.map-nav button::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(215,227,92,.12),transparent);
+  transform:translateX(-110%);
+  transition:transform .35s ease;
+  pointer-events:none;
+}
+
+.map-nav button:hover{
+  color:var(--green-bright);
+  border-color:var(--line-strong);
+  transform:translateY(-2px);
+}
+.map-nav button:hover::before{transform:translateX(110%)}
+
+.map-nav button.active{
+  color:#111408;
+  border-color:var(--green-bright);
+  background:var(--green-bright);
+  box-shadow:0 0 15px rgba(174,189,67,.2);
+}
+
+.map-section{
+  display:none;
+  min-height:420px;
+  position:relative;
+  isolation:isolate;
+}
+
+.map-section.active{
+  display:block;
+  animation:mapEnter .65s cubic-bezier(.2,.75,.2,1) both;
+}
+
+.map-section::before{
+  content:"";
+  position:absolute;
+  z-index:-2;
+  inset:0;
+  background-image:var(--map-image,none);
+  background-position:center;
+  background-size:cover;
+  opacity:.27;
+  filter:grayscale(1) sepia(.2) hue-rotate(35deg) brightness(.48) contrast(1.15);
+  transform:scale(1.035);
+  animation:mapDrift 18s ease-in-out infinite alternate;
+}
+
+.map-section::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(5,7,5,.55),rgba(5,7,5,.88)),
+    radial-gradient(circle at 50% 15%,rgba(174,189,67,.10),transparent 55%);
+  pointer-events:none;
+}
+
+.map-section > *{position:relative;z-index:1}
+
+/* Expected guide image filenames. Put your own images in /images with these names. */
+#police-station{--map-image:url("../images/police-station.jpg")}
+#fun-park{--map-image:url("../images/fun-park.jpg")}
+#toy-factory{--map-image:url("../images/toy-factory.jpg")}
+#downtown{--map-image:url("../images/downtown.jpg")}
+#courthouse{--map-image:url("../images/courthouse.jpg")}
+#the-resort{--map-image:url("../images/resort.jpg")}
+#prison-farm{--map-image:url("../images/prison-farm.jpg")}
+#the-docks{--map-image:url("../images/the-docks.jpg")}
+#the-suburbs{--map-image:url("../images/subrubs.jpg")}
+#shopping-mall{--map-image:url("../images/mall.jpg")}
+#television-studio{--map-image:url("../images/tv-studio.jpg")}
+
+footer{
+  position:relative;
+  padding:2rem 1rem 3rem;
+  border-top:1px solid var(--line);
+  color:var(--dim);
+  text-align:center;
+  background:#040604;
+  font:500 .68rem/1.5 "IBM Plex Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+footer::before{
+  content:"MURKOFF CORPORATION  //  RECORD TERMINATED";
+  display:block;
+  margin-bottom:.6rem;
+  color:rgba(174,189,67,.32);
+}
+
+/* Optional utility classes that can be added to any page. */
+.warning{
+  border-color:rgba(201,184,63,.42)!important;
+  box-shadow:inset 3px 0 var(--warning),var(--shadow)!important;
+}
+.danger{
+  border-color:rgba(164,38,36,.5)!important;
+  box-shadow:inset 3px 0 var(--blood-bright),var(--shadow)!important;
+}
+.classified{
+  position:relative;
+  text-transform:uppercase;
+}
+.classified::after{
+  content:"CLASSIFIED";
+  display:block;
+  margin-top:.9rem;
+  color:var(--blood-bright);
+  font:600 .65rem/1 "IBM Plex Mono",monospace;
+  letter-spacing:.2em;
+  animation:recordBlink 3s ease-in-out infinite;
+}
+
+@keyframes contentIn{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:none}
+}
+@keyframes cardReveal{
+  from{opacity:0;transform:translateY(18px) scale(.985)}
+  to{opacity:1;transform:none}
+}
+@keyframes mapEnter{
+  from{opacity:0;transform:translateY(10px);filter:brightness(.65)}
+  to{opacity:1;transform:none;filter:none}
+}
+@keyframes mapDrift{
+  from{transform:scale(1.035) translate3d(-.5%,0,0)}
+  to{transform:scale(1.07) translate3d(.7%,-.4%,0)}
+}
+@keyframes panelScan{
+  0%,70%{transform:translateX(-100%)}
+  86%,100%{transform:translateX(130%)}
+}
+@keyframes terminalSweep{
+  0%{left:-35%}
+  55%,100%{left:120%}
+}
+@keyframes vignetteBreath{
+  0%,100%{opacity:.8}
+  50%{opacity:1}
+}
+@keyframes titleFlicker{
+  0%,91%,94%,100%{opacity:1}
+  92%{opacity:.78}
+  93%{opacity:.96}
+}
+@keyframes recordBlink{
+  0%,38%,100%{opacity:1}
+  44%{opacity:.25}
+  50%{opacity:1}
+}
+@keyframes cursorBlink{
+  0%,48%{opacity:1}
+  49%,100%{opacity:.25}
+}
+
+@media (max-width:760px){
+  header{padding:3.6rem 1rem 2.8rem}
+  header h1{font-size:clamp(2.2rem,12vw,4rem)}
+  header::after{font-size:.5rem;letter-spacing:.1em}
+  nav{gap:.25rem;padding:.5rem}
+  nav::before{display:none}
+  nav a{flex:1 1 auto;padding:.55rem .55rem;font-size:.62rem}
+  main{width:min(100% - 1rem,1180px);padding-top:1rem}
+  section{padding:1rem;margin-bottom:1rem}
+  .card-grid{grid-template-columns:1fr}
+  .map-section{min-height:0}
+  .map-nav button{flex:1 1 calc(50% - .5rem)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+    transition-duration:.001ms!important;
+  }
+}
+
+
+/* =========================================================
+   CINEMATIC OUTLAST IMAGE + MOTION LAYER
+   Uses the real screenshots already included in /images.
+   ========================================================= */
+body[class*="page-"] header{
+  min-height:300px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background-image:
+    linear-gradient(180deg,rgba(3,5,3,.28),rgba(3,5,3,.92)),
+    var(--hero-image);
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 18px 55px rgba(0,0,0,.72), inset 0 -60px 90px rgba(0,0,0,.65);
+}
+body[class*="page-"] header h1,
+body[class*="page-"] header p{position:relative;z-index:2}
+body[class*="page-"] header::after{
+  content:"MURKOFF  //  SINYALA FACILITY  //  INTERNAL USE ONLY";
+  z-index:3;
+}
+body[class*="page-"] header::before{z-index:4}
+
+.page-hero{
+  position:relative;
+  min-height:260px;
+  margin:0 0 2rem;
+  overflow:hidden;
+  border:1px solid rgba(215,227,92,.28);
+  background-image:
+    linear-gradient(90deg,rgba(3,5,3,.94) 0%,rgba(3,5,3,.45) 48%,rgba(3,5,3,.82) 100%),
+    var(--hero-image);
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 18px 48px rgba(0,0,0,.62);
+  isolation:isolate;
+  animation:heroBreath 8s ease-in-out infinite alternate;
+}
+.page-hero::before{
+  content:"";
+  position:absolute;inset:-8%;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 3px,rgba(215,227,92,.045) 4px),
+    linear-gradient(105deg,transparent 25%,rgba(215,227,92,.08) 50%,transparent 75%);
+  transform:translateX(-100%);
+  animation:heroScan 6s linear infinite;
+  pointer-events:none;
+}
+.page-hero::after{
+  content:"LIVE ARCHIVE FEED  //  VISUAL RECORD";
+  position:absolute;right:16px;top:14px;
+  padding:7px 10px;
+  border:1px solid rgba(174,189,67,.3);
+  background:rgba(2,4,2,.66);
+  color:var(--green-bright);
+  font:600 .58rem/1 'IBM Plex Mono',monospace;
+  letter-spacing:.13em;
+  animation:recordBlink 2.3s ease-in-out infinite;
+}
+.page-hero-content{
+  position:relative;z-index:2;
+  width:min(720px,90%);
+  margin:auto 0;
+  padding:2rem;
+}
+.page-hero-content .eyebrow{
+  color:var(--green-bright);
+  font:600 .68rem/1 'IBM Plex Mono',monospace;
+  letter-spacing:.18em;text-transform:uppercase;
+}
+.page-hero-content h2{font-size:clamp(2rem,5vw,4rem);margin:.5rem 0}
+.page-hero-content p{max-width:650px;color:#c4c9b7}
+
+/* Make guide screenshots visibly part of every map tab. */
+.map-section::before{
+  opacity:.43;
+  filter:brightness(.62) contrast(1.12) saturate(.75);
+}
+.map-section::after{
+  background:
+    linear-gradient(180deg,rgba(5,7,5,.18) 0%,rgba(5,7,5,.73) 82%),
+    linear-gradient(90deg,rgba(5,7,5,.66),transparent 55%,rgba(5,7,5,.48));
+}
+.map-section .map-photo{
+  display:block;
+  width:100%;
+  max-height:360px;
+  object-fit:cover;
+  margin:0 0 1.25rem;
+  border:1px solid rgba(215,227,92,.32);
+  filter:brightness(.72) contrast(1.12) saturate(.82);
+  box-shadow:0 12px 35px rgba(0,0,0,.55);
+  transition:transform .7s ease,filter .5s ease;
+}
+.map-section .map-photo:hover{transform:scale(1.025);filter:brightness(.9) contrast(1.08) saturate(1)}
+
+/* Real screenshot cards on summary pages. */
+.visual-card-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.2rem 0 1.5rem;
+}
+.visual-card{
+  position:relative;min-height:220px;overflow:hidden;border:1px solid rgba(174,189,67,.22);
+  background:#060806;box-shadow:0 12px 34px rgba(0,0,0,.5);
+  transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease;
+}
+.visual-card:hover{transform:translateY(-5px) scale(1.01);border-color:var(--green-bright);box-shadow:0 18px 44px rgba(0,0,0,.65),0 0 20px rgba(174,189,67,.1)}
+.visual-card img{width:100%;height:100%;min-height:220px;object-fit:cover;display:block;filter:brightness(.62) contrast(1.1) saturate(.75);transition:transform .8s ease,filter .6s ease}
+.visual-card:hover img{transform:scale(1.08);filter:brightness(.88) contrast(1.1) saturate(1)}
+.visual-card .visual-label{position:absolute;left:0;right:0;bottom:0;padding:2.5rem 1rem .9rem;background:linear-gradient(transparent,rgba(0,0,0,.9));font:600 .76rem/1.3 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--green-bright)}
+
+/* Subtle animated atmosphere on every page. */
+main{position:relative}
+main::before{
+  content:"";position:fixed;left:8vw;top:30vh;width:18rem;height:18rem;z-index:-1;pointer-events:none;
+  background:radial-gradient(circle,rgba(174,189,67,.045),transparent 68%);
+  filter:blur(18px);animation:orbDrift 12s ease-in-out infinite alternate;
+}
+
+@keyframes heroScan{to{transform:translateX(100%)}}
+@keyframes heroBreath{from{background-position:center 48%;}to{background-position:center 52%;}}
+@keyframes orbDrift{from{transform:translate(-5vw,-2vh)}to{transform:translate(9vw,8vh)}}
+
+@media (max-width:700px){
+  .visual-card-grid{grid-template-columns:1fr}
+  .page-hero{min-height:230px}
+  .page-hero-content{padding:1.25rem}
+}
+
+/* Keep the map selector above every animated/visual layer. */
+.guide-intro{position:relative;z-index:10}
+.map-nav,.map-nav li,.map-nav button{pointer-events:auto}
+.map-nav button::before{pointer-events:none}
+
+/* === USER IMAGE CARD UPGRADE === */
+.card-grid{grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:2rem}
+.card.image-entry{padding:0;overflow:hidden;position:relative;min-height:100%;transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease}
+.card.image-entry:hover{transform:translateY(-8px);box-shadow:0 0 34px rgba(174,189,67,.18),0 20px 45px rgba(0,0,0,.55);border-color:rgba(174,189,67,.55)}
+.card.image-entry .entry-image{display:block;width:100%;height:260px;object-fit:cover;filter:saturate(.9) contrast(1.08) brightness(.78);transition:transform .65s ease,filter .45s ease}
+.card.image-entry:hover .entry-image{transform:scale(1.065);filter:saturate(1.05) contrast(1.12) brightness(.95)}
+.card.image-entry .entry-content{padding:1.25rem 1.35rem 1.4rem}
+.card.image-entry .entry-image-wrap{position:relative;overflow:hidden;background:#060806}
+.card.image-entry .entry-image-wrap:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(0,0,0,.68));pointer-events:none}
+.card.image-entry .entry-image-wrap:before{content:"VISUAL FEED // LIVE";position:absolute;z-index:2;left:12px;top:10px;padding:4px 7px;font:600 .58rem/1 monospace;letter-spacing:.12em;color:#d8e89a;background:rgba(4,8,4,.72);border:1px solid rgba(174,189,67,.35);animation:feedblink 2.4s infinite}
+@keyframes feedblink{50%{opacity:.55}52%{opacity:1}90%{opacity:.75}}
+.map-photo{width:100%;max-height:560px;object-fit:cover;border-radius:8px;box-shadow:0 0 35px rgba(0,0,0,.55);transition:transform .5s ease,filter .5s ease}
+.map-photo:hover{transform:scale(1.012);filter:brightness(1.08) contrast(1.05)}
+.visual-card-grid{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))!important;gap:1.5rem!important}
+.visual-card img{height:280px!important;object-fit:cover;transition:transform .6s ease,filter .45s ease!important}
+.visual-card:hover img{transform:scale(1.06);filter:brightness(.98) saturate(1.08)!important}
+@media(max-width:700px){.card-grid,.visual-card-grid{grid-template-columns:1fr!important}.card.image-entry .entry-image{height:220px}.map-photo{max-height:360px}}
+
+/* User-supplied character artwork: preserve the entire frame so faces are never cropped. */
+.card.image-entry .entry-image.preserve-image,
+.card.image-entry.character-entry .entry-image{
+  width:100%;
+  height:auto;
+  min-height:360px;
+  max-height:620px;
+  object-fit:contain;
+  object-position:center;
+  background:#050705;
+  padding:0;
+}
+.card.image-entry .entry-image-wrap:has(.preserve-image),
+.card.image-entry.character-entry .entry-image-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:320px;
+}
+.card.image-entry:hover .entry-image.preserve-image{transform:scale(1.025)}
+@media(max-width:700px){
+  .card.image-entry .entry-image.preserve-image,
+  .card.image-entry.character-entry .entry-image{min-height:280px;max-height:520px}
+  .card.image-entry .entry-image-wrap:has(.preserve-image),
+.card.image-entry.character-entry .entry-image-wrap{min-height:260px}
+}
+
+
+/* =========================================================
+   ENHANCED CINEMATIC MOTION
+   ========================================================= */
+body::marker{display:none}
+body[class*="page-"]::after{
+  background:
+    radial-gradient(circle at 18% 24%,rgba(174,189,67,.045),transparent 16rem),
+    radial-gradient(circle at 82% 68%,rgba(109,23,24,.055),transparent 20rem),
+    radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.68) 100%),
+    linear-gradient(90deg,rgba(0,0,0,.2),transparent 16%,transparent 84%,rgba(0,0,0,.2));
+  animation:vignetteBreath 6s ease-in-out infinite,ambientPulse 11s ease-in-out infinite alternate;
+}
+body[class*="page-"] main::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.16;
+  background:
+    radial-gradient(circle at 20% 80%,rgba(215,227,92,.12) 0 1px,transparent 2px),
+    radial-gradient(circle at 70% 30%,rgba(215,227,92,.10) 0 1px,transparent 2px),
+    radial-gradient(circle at 45% 55%,rgba(215,227,92,.08) 0 1px,transparent 2px);
+  background-size:180px 180px,240px 240px,320px 320px;
+  animation:particleDrift 24s linear infinite;
+}
+
+.visual-card,.card.image-entry{isolation:isolate}
+.visual-card::before,.card.image-entry::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  background:
+    linear-gradient(115deg,transparent 30%,rgba(215,227,92,.10) 48%,transparent 58%),
+    repeating-linear-gradient(0deg,transparent 0 6px,rgba(255,255,255,.018) 7px);
+  transform:translateX(-115%);
+  animation:cardSweep 7s ease-in-out infinite;
+}
+.visual-card::after,.card.image-entry::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  border:1px solid rgba(215,227,92,.08);
+  box-shadow:inset 0 0 35px rgba(174,189,67,.035);
+}
+.visual-card:hover::after,.card.image-entry:hover::after{box-shadow:inset 0 0 50px rgba(174,189,67,.12),0 0 24px rgba(174,189,67,.08)}
+.visual-card img,.card.image-entry .entry-image{will-change:transform,filter}
+.visual-card:hover img{transform:scale(1.11)!important;filter:brightness(1) contrast(1.13) saturate(1.12)!important}
+.card.image-entry:hover .entry-image{transform:scale(1.045)!important}
+
+.map-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:1.25rem!important}
+.map-card{display:block;color:inherit;min-height:270px;text-decoration:none}
+.map-card:hover{color:inherit}
+.map-card img{height:270px!important}
+.map-card .visual-label{display:flex;align-items:center;gap:.6rem;padding-top:3rem}
+.map-card .visual-label small{display:block;margin-left:auto;color:rgba(215,227,92,.58);font-size:.52rem;letter-spacing:.12em}
+.map-index{display:inline-grid;place-items:center;width:27px;height:27px;border:1px solid rgba(215,227,92,.35);color:var(--green-bright);font-size:.6rem}
+.map-card:focus-visible{outline:2px solid var(--green-bright);outline-offset:4px}
+
+/* Animated frame corners make each image feel like a live archive terminal. */
+.map-card-grid .map-card{clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.map-card-grid .map-card:hover{animation:cardJolt .32s steps(2) both}
+
+/* Keep character portraits uncropped while adding a subtle spotlight. */
+.card.image-entry.character-entry .entry-image-wrap{background:radial-gradient(circle at 50% 40%,rgba(174,189,67,.07),#050705 62%)}
+.card.image-entry.character-entry .entry-image-wrap::after{background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.5))}
+
+@keyframes cardSweep{0%,55%{transform:translateX(-115%)}72%,100%{transform:translateX(125%)}}
+@keyframes particleDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-40px,24px,0)}}
+@keyframes ambientPulse{from{filter:brightness(.98)}to{filter:brightness(1.03)}}
+@keyframes cardJolt{0%{transform:translateY(-8px)}35%{transform:translate(-2px,-7px)}70%{transform:translate(2px,-8px)}100%{transform:translateY(-8px)}}
+
+@media(max-width:980px){.map-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:700px){.map-card-grid{grid-template-columns:1fr!important}.map-card,.map-card img{min-height:230px;height:230px!important}}
+
+.map-nav-link{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:.5rem .75rem;border:1px solid rgba(174,189,67,.22);background:rgba(5,8,5,.7);color:var(--muted);font:600 .68rem/1 "IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;transition:all .2s ease}
+.map-nav-link:hover,.map-nav-link:focus-visible{color:var(--green-bright);border-color:var(--line-strong);transform:translateY(-2px);outline:none}
+.map-nav-link.active{color:#111408;background:var(--green-bright);border-color:var(--green-bright);box-shadow:0 0 15px rgba(174,189,67,.2)}
+@media(max-width:760px){.map-nav-link{flex:1 1 calc(50% - .5rem)}}
+
+
+/* =========================================================
+   MAP CARD HUD EFFECTS
+   ========================================================= */
+.map-card .visual-card-scan{position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(180deg,transparent 0%,rgba(215,227,92,.16) 50%,transparent 52%);transform:translateY(-120%);animation:mapScan 5.5s ease-in-out infinite}
+.map-card:nth-child(2n) .visual-card-scan{animation-delay:1.1s}
+.map-card:nth-child(3n) .visual-card-scan{animation-delay:2.2s}
+.map-card .visual-label{z-index:5}
+.map-card::after{transition:box-shadow .35s ease,border-color .35s ease}
+.map-card:hover::after{border-color:rgba(215,227,92,.5);box-shadow:inset 0 0 55px rgba(174,189,67,.14),0 0 30px rgba(174,189,67,.12)}
+.map-card:hover .map-index{animation:badgePulse .8s steps(2) infinite}
+.map-card:focus-visible{outline:2px solid var(--green-bright);outline-offset:5px}
+.map-nav-link.active{animation:activeNavPulse 1.8s ease-in-out infinite}
+
+/* Character portraits get a moving focus beam without cropping the face. */
+.character-entry .entry-image-wrap::before{content:"VISUAL FEED  //  FACE LOCK";position:absolute;z-index:5;left:12px;top:10px;padding:4px 7px;font:600 .58rem/1 monospace;letter-spacing:.12em;color:#d8e89a;background:rgba(4,8,4,.76);border:1px solid rgba(174,189,67,.35);animation:feedblink 2.4s infinite}
+.character-entry .entry-image-wrap{isolation:isolate}
+.character-entry .entry-image-wrap::after{z-index:4!important;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.48))!important}
+.character-entry:hover .entry-image-wrap::before{color:#fff}
+
+@keyframes mapScan{0%,45%{transform:translateY(-120%)}72%,100%{transform:translateY(120%)}}
+@keyframes badgePulse{50%{box-shadow:0 0 16px rgba(215,227,92,.7);transform:scale(1.08)}}
+@keyframes activeNavPulse{50%{box-shadow:0 0 22px rgba(174,189,67,.3)}}
+
+.card.image-entry[href]{display:block;color:inherit}
+.card.image-entry[href] h3{color:var(--paper)}
+.card.image-entry[href]:hover h3{color:var(--green-bright)}
